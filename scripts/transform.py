@@ -1,8 +1,7 @@
+def transform_data(product_df),transaction_df:
 
-import pandas as pd
+    # Data Frame Product
+    product_df['currency'] = product_df['price'].str[:2]
+    product_df['price'] = product_df['price'].str[3:].astype(int)
 
-def transform_csv(path):
-    return pd.read_csv(path)
-
-def transform_json(path):
-    return pd.read_json(path)
+    return product_df.head(5)

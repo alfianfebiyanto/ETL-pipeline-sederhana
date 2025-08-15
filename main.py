@@ -1,6 +1,12 @@
 from config.setting import USER_PATH ,PRODUCT_PATH, TRANSCATION_PATH
-from scripts.transform import transform_csv
+from scripts.ekstract import exctract_csv, extract_json
+from scripts.transform import transform_data
 
 # Extract
-user_df = transform_csv(PRODUCT_PATH)
-print(user_df)
+product_df = exctract_csv(PRODUCT_PATH)
+transaction_df = exctract_csv(TRANSCATION_PATH)
+user_df = extract_json(USER_PATH)
+
+# Transform
+transformed_df = transform_data(product_df)
+print(transformed_df)
