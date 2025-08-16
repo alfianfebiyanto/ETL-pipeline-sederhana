@@ -1,6 +1,7 @@
 from datetime import datetime
 import traceback
 
+
 from config.setting import (
     USER_PATH ,PRODUCT_PATH, TRANSCATION_PATH ,OUTPUT_PATH,
     ALERT_EMAIL_APP_PASSWORD, ALERT_EMAIL_SENDER, ALERT_EMAIL_TO
@@ -32,7 +33,7 @@ if __name__=="__main__":
         # Load 
         stage= "Load"
         save_to_csv(final_df, OUTPUT_PATH)
-        print(f'ETL selesai file disimapn disini {OUTPUT_PATH}')
+        print(f'ETL selesai file disimpan disini {OUTPUT_PATH}')
 
         # Log Sukses
         metrics = make_matrics(
