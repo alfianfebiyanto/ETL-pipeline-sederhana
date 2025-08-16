@@ -42,7 +42,10 @@ hingga <strong>menyimpan hasil akhir</strong> dalam format yang siap digunakan u
 <hr>
 
 <h2>📐 Arsitektur Data</h2>
-<p><em>(Taruh diagram arsitektur lo di sini — bisa gambar flow Extract → Transform → Load + Alert &amp; Report)</em></p>
+
+<p align="center">
+  <img src="assets/ETL_ARCITECTURE.png" alt="Arsitektur ETL Pipeline" width="600">
+</p>
 
 <hr>
 
