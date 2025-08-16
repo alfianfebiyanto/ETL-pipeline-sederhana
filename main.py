@@ -10,46 +10,48 @@ from scripts.transform import transform_data
 from scripts.load import save_to_csv
 from scripts.alerts import send_email_alert, format_alert
 
-JOB_NAME = 'ETL_Sederhana'
-
-def run_etl():
-    # Extract
-    product_df = exctract_csv(PRODUCT_PATH)
-    transaction_df = exctract_csv(TRANSCATION_PATH)
-    user_df = extract_json(USER_PATH)
-
-    # Transform
-    final_df = transform_data(product_df,transaction_df,user_df)
-
-    # Load 
-    save_to_csv(final_df, OUTPUT_PATH)
-    print(f'ETL selesai file disimapn disini {OUTPUT_PATH}')
+JOB_NAME = 'ETL_Sederhana_Project'
 
 if __name__=="__main__":
-    run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+    time_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    stage = "start"
+
     try:
-        # (opsional) nanti kita tambah prechecks() disini
-        raise RuntimeError("TEST ALERT: sengaja gagal untuk cek email.")
-        run_etl()
-    except Exception:
-        err = traceback.format_exc()
-        body = format_alert(
-            severity="ERROR",
-            run_id=run_id,
+        # Extract
+        stage= "Extract"
+        product_df = exctract_csv(PRODUCT_PATH)
+        transaction_df = exctract_csv(TRANSCATION_PATH)
+        user_df = extract_json(USER_PATH)
+
+        # Transform
+        stage= "Transfrom"
+        final_df = transform_data(product_df,transaction_df,user_df)
+
+        # Load 
+        stage= "Load"
+        save_to_csv(final_df, OUTPUT_PATH)
+        print(f'ETL selesai file disimapn disini {OUTPUT_PATH}')
+
+
+    except Exception: 
+        err = traceback.format_exc() 
+        body = format_alert( # body = # struktur alert  pesan ditulis disini
+            severity="WARNING",
+            time=time_stamp,
             job=JOB_NAME,
-            stage="runtime",
+            stage=stage,
             message=err
-        )
-        # kirim email alert
+        ) 
+        
         try:
-            send_email_alert(
-                subject=f"[ALERT] {JOB_NAME} FAILED {run_id}",
-                body=body,
-                sender=ALERT_EMAIL_SENDER,
+            send_email_alert( # ini function arlet yang dikirim ke email kita
+                subject=f"[ALERT] {JOB_NAME} FAILED {time_stamp}", # subkect yang dikirim sama email kita
+                body=body, # ini diambil dari body diatas
+                sender=ALERT_EMAIL_SENDER, 
                 app_password=ALERT_EMAIL_APP_PASSWORD,
                 to=ALERT_EMAIL_TO,
             )
         finally:
-            # tetp raise biar bisa ketahuan gagal di scheduler/log
+            # tetap raise biar bisa ketahuan gagal di scheduler/log
             raise
         
