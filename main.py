@@ -9,12 +9,14 @@ from scripts.ekstract import exctract_csv, extract_json
 from scripts.transform import transform_data
 from scripts.load import save_to_csv
 from scripts.alerts import send_email_alert, format_alert
+from scripts.monitoring import start_timer, stop_timer, make_matrics, log_run
 
 JOB_NAME = 'ETL_Sederhana_Project'
 
 if __name__=="__main__":
     time_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     stage = "start"
+    t0 = start_timer()
 
     try:
         # Extract
@@ -32,9 +34,33 @@ if __name__=="__main__":
         save_to_csv(final_df, OUTPUT_PATH)
         print(f'ETL selesai file disimapn disini {OUTPUT_PATH}')
 
+        # Log Sukses
+        metrics = make_matrics(
+            time=time_stamp,
+            status="Sucsses",
+            stage=stage,
+            t0=t0,
+            source_rows=len(transaction_df),
+            transformed_rows=len(final_df),
+            loaded_rows=len(final_df)
+        )
+        log_run(metrics)
 
     except Exception: 
         err = traceback.format_exc() 
+        
+        # Log Failed
+        metrics = make_matrics(
+            time=time_stamp,
+            status="Failed",
+            stage=stage,
+            t0=t0,
+            source_rows=len(transaction_df),
+            transformed_rows=len(final_df),
+            loaded_rows=len(final_df)
+        )
+        log_run(metrics)
+
         body = format_alert( # body = # struktur alert  pesan ditulis disini
             severity="WARNING",
             time=time_stamp,
