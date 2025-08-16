@@ -18,8 +18,9 @@ if __name__=="__main__":
     time_stamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     stage = "start"
     t0 = start_timer()
-
+        
     try:
+        
         # Extract
         stage= "Extract"
         product_df = exctract_csv(PRODUCT_PATH)
@@ -34,7 +35,7 @@ if __name__=="__main__":
         stage= "Load"
         save_to_csv(final_df, OUTPUT_PATH)
         print(f'ETL selesai file disimpan disini {OUTPUT_PATH}')
-
+    
         # Log Sukses
         metrics = make_matrics(
             time=time_stamp,
@@ -46,6 +47,7 @@ if __name__=="__main__":
             loaded_rows=len(final_df)
         )
         log_run(metrics)
+
 
     except Exception: 
         err = traceback.format_exc() 
