@@ -13,3 +13,4 @@ final_df = transform_data(product_df,transaction_df,user_df)
 
 # Load 
 save_to_csv(final_df, OUTPUT_PATH)
+print(f'ETL selesai file disimapn disini {OUTPUT_PATH}')
