@@ -44,7 +44,7 @@ hingga <strong>menyimpan hasil akhir</strong> dalam format yang siap digunakan u
 <h2>📐 Arsitektur Data</h2>
 
 <p align="center">
-  <img src="asset/ETL_ARCITECTURE.png" alt="ETL Architecture Diagram" width="800">
+  <img src="asset/ETL ARCITECTURE.png" alt="ETL Architecture Diagram" width="800">
 </p>
 
 <hr>
